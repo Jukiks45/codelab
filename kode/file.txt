@@ -1,0 +1,4 @@
+Nama : Zaki Almukhtarom
+Nim : 202310370311055
+Kelas : PBO B
+link repo : https://github.com/Jukiks45/kode-praktikum/blob/main/codelab1/codelab.java 
