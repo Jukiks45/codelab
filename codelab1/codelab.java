@@ -34,5 +34,7 @@ public class codelab {
         System.out.println("\nNama: " + nama);
         System.out.println("Jenis Kelamin: " + jenisKelamin);
         System.out.println("Umur Anda: " + selisihTime.getYears() + " tahun " + selisihTime.getMonths() + " bulan");
+        
+        scanner.close();
     }
 }
