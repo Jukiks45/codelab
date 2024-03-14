@@ -15,7 +15,7 @@ public class Main {
             int pilihan = scanner.nextInt();
 
             if (pilihan == 1) {
-                scanner.nextLine(); // Consume newline character
+                scanner.nextLine();
                 System.out.print("Masukkan nama mahasiswa: ");
                 String nama = scanner.nextLine();
                 System.out.print("Masukkan NIM mahasiswa: ");
@@ -38,7 +38,7 @@ public class Main {
                 }
             } else if (pilihan == 3) {
                 System.out.println("Adios");
-                scanner.close(); // Tutup scanner sebelum keluar dari program
+                scanner.close();
                 System.exit(0);
             } else {
                 System.out.println("Pilihan tidak valid. Silakan pilih 1, 2, atau 3.");
