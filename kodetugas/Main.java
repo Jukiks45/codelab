@@ -10,18 +10,18 @@ class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("===== Library System =====");
-            System.out.println("1. Login as Student");
-            System.out.println("2. Login as Admin");
+            System.out.println("1. Student Login");
+            System.out.println("2. Admin Login");
             System.out.println("3. Exit");
-            System.out.print("Choose option (1-3): ");
+            System.out.print("Select option (1-3): ");
             String option = scanner.nextLine();
             switch (option) {
                 case "1":
-                    inputNim(scanner);
+                    enterNim(scanner);
                     break;
                 case "2":
                     Admin admin = new Admin();
-                    admin.menuAdmin(scanner);
+                    admin.adminMenu(scanner);
                     break;
                 case "3":
                     System.out.println("Thank you. Exiting program.");
@@ -32,17 +32,17 @@ class Main {
         }
     }
 
-    public static void inputNim(Scanner scanner) {
-        System.out.print("Enter your NIM (input 99 for back): ");
+    public static void enterNim(Scanner scanner) {
+        System.out.print("Enter your Student ID (input 99 to go back): ");
         String nim = scanner.nextLine();
         if (nim.equals("99")) {
             return;
         } else if (checkNim(nim)) {
             Student student = new Student(nim);
-            student.menuStudent(scanner);
+            student.studentMenu(scanner);
         } else {
-            System.out.println("Invalid NIM. Please try again.");
-            inputNim(scanner);
+            System.out.println("Invalid Student ID. Please try again.");
+            enterNim(scanner);
         }
     }
 
@@ -56,13 +56,13 @@ class Main {
     }
 
     public static void initializeData() {
-        bookList.add(new Book("388c-e681-9152", "title1", "author1", "Sejarah", 8));
-        bookList.add(new Book("ed90-be30-5cdb", "title2", "author2", "Sejarah", 11));
-        bookList.add(new Book("d95e-0c4a-9523", "title3", "author3", "Sejarah", 3));
+        bookList.add(new Book("388c-e681-9152", "title1", "author1", "History", 8));
+        bookList.add(new Book("ed90-be30-5cdb", "title2", "author2", "History", 11));
+        bookList.add(new Book("d95e-0c4a-9523", "title3", "author3", "History", 3));
 
-        userStudent.add(new Student("Taufiq Ramadhan", "202210370311288", "Teknik", "Informatika"));
-        userStudent.add(new Student("Who", "200510370318521", "Teknik", "Informatika"));
-        userStudent.add(new Student("Sutrisno Adit Pratama", "202210370311203", "Teknik", "Informatika"));
+        userStudent.add(new Student("Taufiq Ramadhan", "202210370311288", "Engineering", "Informatics"));
+        userStudent.add(new Student("Who", "200510370318521", "Engineering", "Informatics"));
+        userStudent.add(new Student("Sutrisno Adit Pratama", "202210370311203", "Engineering", "Informatics"));
     }
 }
 
@@ -115,23 +115,23 @@ class Student {
 
     public String getNim() { return nim; }
 
-    public void menuStudent(Scanner scanner) {
+    public void studentMenu(Scanner scanner) {
         while (true) {
             System.out.println("=== Student Menu ===");
-            System.out.println("1. Buku terpinjam");
-            System.out.println("2. Pinjam buku");
-            System.out.println("3. Pinjam Buku atau Logout");
-            System.out.print("Choose option (1-3): ");
+            System.out.println("1. Borrowed Books");
+            System.out.println("2. Borrow a Book");
+            System.out.println("3. Borrow a Book or Logout");
+            System.out.print("Select option (1-3): ");
             String option = scanner.nextLine();
             switch (option) {
                 case "1":
-                    System.out.println("Buku terpinjam:");
+                    System.out.println("Borrowed Books:");
                     break;
                 case "2":
                     displayBooks();
                     break;
                 case "3":
-                    System.out.println("System logout...");
+                    System.out.println("Logging out...");
                     return;
                 default:
                     System.out.println("Invalid option.");
@@ -140,15 +140,17 @@ class Student {
     }
 
     public void displayBooks() {
-        System.out.println("================================================================");
-        System.out.println("|| No. || Id Buku || Nama Buku || Author || Category || Stock ||");
+        System.out.println("=======================================================================================================");
+        System.out.printf("| %-4s | %-10s | %-30s | %-20s | %-15s | %-6s |\n", "No.", "Book ID", "Book Title", "Author", "Category", "Stock");
+        System.out.println("=======================================================================================================");
         int index = 1;
         for (Book book : Main.bookList) {
-            System.out.println("|| " + index + "  || " + book.getId() + " || " + book.getTitle() + " || " + book.getAuthor() + " || " + book.getCategory() + "  || " + book.getStock() + " ||");
+            System.out.printf("| %-4d | %-10s | %-30s | %-20s | %-15s | %-6d |\n", index, book.getId(), book.getTitle(), book.getAuthor(), book.getCategory(), book.getStock());
             index++;
         }
-        System.out.println("================================================================");
+        System.out.println("=======================================================================================================");
     }
+    
 
     public String getName() { return name; }
     public String getFaculty() { return faculty; }
@@ -156,13 +158,13 @@ class Student {
 }
 
 class Admin {
-    public void menuAdmin(Scanner scanner) {
+    public void adminMenu(Scanner scanner) {
         while (true) {
             System.out.println("=== Admin Menu ===");
             System.out.println("1. Add Student");
             System.out.println("2. Display Registered Students");
             System.out.println("3. Logout");
-            System.out.print("Choose option (1-3): ");
+            System.out.print("Select option (1-3): ");
             String option = scanner.nextLine();
             switch (option) {
                 case "1":
@@ -186,10 +188,10 @@ class Admin {
         String name = scanner.nextLine();
         String nim;
         do {
-            System.out.print("Enter student NIM: ");
+            System.out.print("Enter student ID: ");
             nim = scanner.nextLine();
             if (nim.length() != 15) {
-                System.out.println("NIM must be 15 digits.");
+                System.out.println("Student ID must be 15 digits.");
             }
         } while (nim.length() != 15);
         System.out.print("Enter student faculty: ");
@@ -205,7 +207,7 @@ class Admin {
         for (Student student : Main.userStudent) {
             System.out.println("Name: " + student.getName());
             System.out.println("Faculty: " + student.getFaculty());
-            System.out.println("NIM: " + student.getNim());
+            System.out.println("ID: " + student.getNim());
             System.out.println("Program: " + student.getProgram());
             System.out.println();
         }
