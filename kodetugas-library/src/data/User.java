@@ -1,4 +1,8 @@
+package data;
 import java.util.Scanner;
+
+import Main;
+import books.Book;
 
 class User {
     protected String name;

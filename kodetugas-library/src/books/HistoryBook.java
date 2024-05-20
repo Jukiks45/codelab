@@ -1,3 +1,4 @@
+package books;
 
 class HistoryBook extends Book {
     public HistoryBook(String id, String title, String author, String category, int stock, int duration) {

@@ -1,6 +1,12 @@
+package data;
 import java.util.*;
 
-class Admin extends User {
+import Main;
+import books.HistoryBook;
+import books.StoryBook;
+import books.TextBook;
+
+class Admin extends User implements iMenu {
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "admin123";
 
@@ -51,6 +57,11 @@ class Admin extends User {
                     System.out.println("Invalid option.");
             }
         }
+    }
+
+    @Override
+    public void menu() {
+        adminMenu(scanner);
     }
 
     public void addStudent(Scanner scanner) {

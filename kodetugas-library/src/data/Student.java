@@ -1,6 +1,10 @@
+package data;
 import java.util.*;
 
-class Student extends User {
+import Main;
+import books.Book;
+
+class Student extends User implements iMenu {
     private ArrayList<Book> borrowedBooks = new ArrayList<>();
 
     public Student(String name, String nim, String faculty, String program) {
@@ -114,6 +118,11 @@ class Student extends User {
         }
         userMenu();
         scanner.close();
+    }
+
+    @Override
+    public void menu() {
+        userMenu();
     }
 
     @Override
