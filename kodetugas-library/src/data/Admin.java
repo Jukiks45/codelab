@@ -1,12 +1,14 @@
 package data;
 import java.util.*;
 
-import Main;
+import com.main.Main;
 import books.HistoryBook;
 import books.StoryBook;
 import books.TextBook;
+import exception.custom.IllegalAdminAccess;
+import util.iMenu;
 
-class Admin extends User implements iMenu {
+public class Admin extends User implements iMenu {
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "admin123";
 
@@ -20,10 +22,12 @@ class Admin extends User implements iMenu {
         System.out.print("Enter your password (admin123): ");
         String password = scanner.nextLine();
 
-        if (username.equals(USERNAME) && password.equals(PASSWORD)) {
-            adminMenu(scanner);
-        } else {
-            System.out.println("Username atau kata sandi salah. Silakan coba lagi.");
+        try {
+            if (isAdmin(username, password)) {
+                adminMenu(scanner);
+            }
+        } catch (IllegalAdminAccess e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -54,14 +58,19 @@ class Admin extends User implements iMenu {
                     System.out.println("Keluar dari akun admin.");
                     return;
                 default:
-                    System.out.println("Invalid option.");
+                    System.out.println("pilihan tidak valid.");
             }
         }
     }
 
     @Override
     public void menu() {
-        adminMenu(scanner);
+        try {
+            Scanner scanner = new Scanner(System.in);
+            adminMenu(scanner);
+        } catch (Exception e) {
+            System.out.println("Terjadi kesaahan saat menampilkan menu: " + e.getMessage());
+        }
     }
 
     public void addStudent(Scanner scanner) {
@@ -152,8 +161,12 @@ class Admin extends User implements iMenu {
         super.displayBooks();
     }
 
-    public boolean isAdmin(String username, String password) {
-        return username.equals(USERNAME) && password.equals(PASSWORD);
+    public boolean isAdmin(String username, String password) throws IllegalAdminAccess {
+        if (username.equals(USERNAME) && password.equals(PASSWORD)) {
+            return true;
+        } else {
+            throw new IllegalAdminAccess("Invalid credentials");
+        }
     }
 
     public String generateId() {
@@ -161,5 +174,4 @@ class Admin extends User implements iMenu {
         String id = uuid.substring(0, 14);
         return id;
     }
-
 }

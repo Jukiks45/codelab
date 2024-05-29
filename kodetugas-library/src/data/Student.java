@@ -1,10 +1,11 @@
 package data;
 import java.util.*;
 
-import Main;
+import com.main.Main;
 import books.Book;
+import util.iMenu;
 
-class Student extends User implements iMenu {
+public class Student extends User implements iMenu {
     private ArrayList<Book> borrowedBooks = new ArrayList<>();
 
     public Student(String name, String nim, String faculty, String program) {
@@ -122,7 +123,11 @@ class Student extends User implements iMenu {
 
     @Override
     public void menu() {
-        userMenu();
+        try {
+            userMenu();
+        } catch (Exception e) {
+            System.out.println("An error occurred while processing the menu: " + e.getMessage());
+        }
     }
 
     @Override

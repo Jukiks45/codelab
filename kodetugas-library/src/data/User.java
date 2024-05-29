@@ -1,10 +1,10 @@
 package data;
 import java.util.Scanner;
 
-import Main;
+import com.main.Main;
 import books.Book;
 
-class User {
+public class User {
     protected String name;
     protected String nim;
     protected String faculty;
