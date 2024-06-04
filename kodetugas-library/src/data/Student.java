@@ -1,7 +1,7 @@
 package data;
 import java.util.*;
 
-import com.main.Main;
+import controller.MainController;
 import books.Book;
 import util.iMenu;
 
@@ -71,7 +71,7 @@ public class Student extends User implements iMenu {
                 book.setStock(book.getStock() + 1);
                 System.out.println("Book returned successfully.");
                 bookFound = true;
-                for (Book bookMain : Main.bookList) {
+                for (Book bookMain : MainController.bookList) {
                     if (bookMain.getId().equals(returnId)) {
                         bookMain.setStock(book.getStock() + 1);
                         userMenu();
@@ -97,7 +97,7 @@ public class Student extends User implements iMenu {
         if (bookId.equals("99")) {
             return;
         }
-        for (Book book : Main.bookList) {
+        for (Book book : MainController.bookList) {
             if (book.getId().equals(bookId)) {
                 if (book.getStock() > 0) {
                     System.out.print("How many days do you want to borrow the book? (maximum 14 days): ");

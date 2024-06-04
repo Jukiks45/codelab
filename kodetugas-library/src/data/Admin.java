@@ -1,7 +1,7 @@
 package data;
 import java.util.*;
 
-import com.main.Main;
+import controller.MainController;
 import books.HistoryBook;
 import books.StoryBook;
 import books.TextBook;
@@ -9,11 +9,20 @@ import exception.custom.IllegalAdminAccess;
 import util.iMenu;
 
 public class Admin extends User implements iMenu {
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "admin123";
+    public static final String USERNAME = "admin";
+    public static final String PASSWORD = "admin123";
 
     public Admin() {
         super("Admin", "", "", "");
+    }
+
+    public void loginAdmin(String username, String password) throws IllegalAdminAccess {
+        if (isAdmin(username, password)) {
+            // Simulasikan admin menu tanpa scanner
+            System.out.println("Admin login successful.");
+        } else {
+            throw new IllegalAdminAccess("Invalid credentials");
+        }
     }
 
     public void loginAdmin(Scanner scanner) {
@@ -58,7 +67,7 @@ public class Admin extends User implements iMenu {
                     System.out.println("Keluar dari akun admin.");
                     return;
                 default:
-                    System.out.println("pilihan tidak valid.");
+                    System.out.println("Pilihan tidak valid.");
             }
         }
     }
@@ -69,7 +78,7 @@ public class Admin extends User implements iMenu {
             Scanner scanner = new Scanner(System.in);
             adminMenu(scanner);
         } catch (Exception e) {
-            System.out.println("Terjadi kesaahan saat menampilkan menu: " + e.getMessage());
+            System.out.println("Terjadi kesalahan saat menampilkan menu: " + e.getMessage());
         }
     }
 
@@ -89,7 +98,7 @@ public class Admin extends User implements iMenu {
         String faculty = scanner.nextLine();
         System.out.print("Enter student program: ");
         String program = scanner.nextLine();
-        Main.userList.add(new Student(name, nim, faculty, program));
+        MainController.userList.add(new Student(name, nim, faculty, program));
         System.out.println("Student successfully registered.");
     }
 
@@ -127,16 +136,16 @@ public class Admin extends User implements iMenu {
         String bookId = generateId();
         switch (categoryOption) {
             case 1:
-                Main.bookList.add(new StoryBook(bookId, title, author, category, stock, 0));
+                MainController.bookList.add(new StoryBook(bookId, title, author, category, stock, 0));
                 break;
             case 2:
-                Main.bookList.add(new HistoryBook(bookId, title, author, category, stock, 0));
+                MainController.bookList.add(new HistoryBook(bookId, title, author, category, stock, 0));
                 break;
             case 3:
                 System.out.print("Enter duration: ");
                 int duration = scanner.nextInt();
                 scanner.nextLine();
-                Main.bookList.add(new TextBook(bookId, title, author, category, stock, duration));
+                MainController.bookList.add(new TextBook(bookId, title, author, category, stock, duration));
                 break;
         }
         System.out.println("Book successfully added to the library.");
@@ -144,7 +153,7 @@ public class Admin extends User implements iMenu {
 
     public void displayRegisteredStudents() {
         System.out.println("List of Registered Students:");
-        for (User user : Main.userList) {
+        for (User user : MainController.userList) {
             if (user instanceof Student) {
                 Student student = (Student) user;
                 System.out.println("Name: " + student.name);

@@ -1,0 +1,14 @@
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" minHeight="300" minWidth="400" prefHeight="443.0" prefWidth="443.0"
+    spacing="10" style="-fx-padding: 20;" xmlns:fx="http://javafx.com/fxml/1"
+    xmlns="http://javafx.com/javafx/21" fx:controller="controller.AdminController">
+    <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="===== Library System =====" />
+    <Button fx:id="addStudentButton" minWidth="200" text="Add Student" />
+    <Button fx:id="addBookButton" minWidth="200" text="Add Book" />
+    <Button fx:id="displayStudentsButton" minWidth="200" text="Display Students" />
+    <Button fx:id="displayBooksButton" minWidth="200" text="Display Books" />
+    <Button fx:id="logoutButton" minWidth="200" text="Logout" />
+</VBox>

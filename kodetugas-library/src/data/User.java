@@ -1,8 +1,7 @@
 package data;
 import java.util.Scanner;
-
-import com.main.Main;
 import books.Book;
+import controller.MainController;
 
 public class User {
     protected String name;
@@ -54,7 +53,7 @@ public class User {
                 "Author", "Category", "Stock");
         System.out.println("=================================================================================");
         int index = 1;
-        for (Book book : Main.bookList) {
+        for (Book book : MainController.bookList) {
             System.out.printf("|| %-4d || %-8s || %-20s || %-15s || %-10s || %-6d ||\n", index, book.getId(),
                     book.getTitle(), book.getAuthor(), book.getCategory(), book.getStock());
             index++;
