@@ -1,164 +1,67 @@
 package data;
-import java.util.*;
 
-import controller.MainController;
-import books.Book;
-import util.iMenu;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-public class Student extends User implements iMenu {
-    private ArrayList<Book> borrowedBooks = new ArrayList<>();
+public class Student extends User {
+    private final StringProperty name;
+    private final StringProperty nim;
+    private final StringProperty faculty;
+    private final StringProperty program;
 
     public Student(String name, String nim, String faculty, String program) {
-        super(name, nim, faculty, program);
+        super(name, "", faculty, program);
+        this.name = new SimpleStringProperty(name);
+        this.nim = new SimpleStringProperty(nim);
+        this.faculty = new SimpleStringProperty(faculty);
+        this.program = new SimpleStringProperty(program);
     }
 
-    public void displayInfo() {
-        System.out.println("Name: " + name);
-        System.out.println("NIM: " + nim);
-        System.out.println("Faculty: " + faculty);
-        System.out.println("Program: " + program);
+    public String getName() {
+        return name.get();
     }
 
-    @Override
-    public void showBorrowedBooks() {
-        if (borrowedBooks.isEmpty()) {
-            super.showBorrowedBooks();
-        } else {
-            System.out.println("=================================================================================");
-            System.out.printf("|| %-4s || %-8s || %-20s || %-15s || %-10s || %-8s ||\n", "No.", "ID Book", "Title",
-                    "Author", "Category", "Duration");
-            System.out.println("=================================================================================");
-            int index = 1;
-            for (Book book : borrowedBooks) {
-                System.out.printf("|| %-4d || %-8s || %-20s || %-15s || %-10s || %-8d ||\n", index, book.getId(),
-                        book.getTitle(), book.getAuthor(), book.getCategory(), book.getDuration());
-                index++;
-            }
-            System.out.println("=================================================================================");
-        }
+    public void setName(String name) {
+        this.name.set(name);
     }
 
-    @Override
-    public void returnBooks(Scanner scanner) {
-        if (borrowedBooks.isEmpty()) {
-            System.out.println("No books borrowed yet.");
-            return;
-        }
-        System.out.println("=================================================================================");
-        System.out.printf("|| %-4s || %-8s || %-20s || %-15s || %-10s || %-6s ||\n", "No.", "ID Book", "Title",
-                "Author", "Category", "Duration");
-        System.out.println("=================================================================================");
-        int index = 1;
-        for (Book book : borrowedBooks) {
-            System.out.printf("|| %-4d || %-8s || %-20s || %-15s || %-10s || %-4d ||\n", index, book.getId(),
-                    book.getTitle(), book.getAuthor(), book.getCategory(), book.getDuration());
-            index++;
-        }
-        System.out.println("=================================================================================");
-
-        System.out.print("Enter the ID of the book you want to return (input 0 to cancel): ");
-        String returnId = scanner.nextLine();
-
-        if (returnId.equals("0")) {
-            System.out.println("Cancellation.");
-            return;
-        }
-
-        boolean bookFound = false;
-        for (Book book : borrowedBooks) {
-            if (book.getId().equals(returnId)) {
-                borrowedBooks.remove(book);
-                book.setStock(book.getStock() + 1);
-                System.out.println("Book returned successfully.");
-                bookFound = true;
-                for (Book bookMain : MainController.bookList) {
-                    if (bookMain.getId().equals(returnId)) {
-                        bookMain.setStock(book.getStock() + 1);
-                        userMenu();
-                    }
-                }
-                userMenu();
-            }
-        }
-        
-        if (!bookFound) {
-            System.out.println("Book with ID " + returnId + " not found in your borrowed books.");
-            userMenu();
-        }
+    public StringProperty nameProperty() {
+        return name;
     }
 
-    @SuppressWarnings("resource")
-    @Override
-    public void displayBooks() {
-        super.displayBooks();
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the book ID you want to borrow (input 99 to back): ");
-        String bookId = scanner.nextLine();
-        if (bookId.equals("99")) {
-            return;
-        }
-        for (Book book : MainController.bookList) {
-            if (book.getId().equals(bookId)) {
-                if (book.getStock() > 0) {
-                    System.out.print("How many days do you want to borrow the book? (maximum 14 days): ");
-                    int days = scanner.nextInt();
-                    scanner.nextLine();
-                    if (days <= 14) {
-                        borrowedBooks.add(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getCategory(),
-                                book.getStock(), days));
-                        book.setStock(book.getStock() - 1);
-                        System.out.println("Book borrowed successfully.");
-                        userMenu();
-                    } else {
-                        System.out.println("Invalid number of days.");
-                    }
-                } else {
-                    System.out.println("Book out of stock!");
-                }
-            }
-        }
-        userMenu();
-        scanner.close();
+    public String getNim() {
+        return nim.get();
     }
 
-    @Override
-    public void menu() {
-        try {
-            userMenu();
-        } catch (Exception e) {
-            System.out.println("An error occurred while processing the menu: " + e.getMessage());
-        }
+    public void setNim(String nim) {
+        this.nim.set(nim);
     }
 
-    @Override
-    public void logout() {
-        if (borrowedBooks.isEmpty()) {
-            System.out.println("Returning to main menu...");
-        } else {
-            System.out.println("=================================================================================");
-            System.out.printf("|| %-4s || %-8s || %-20s || %-15s || %-10s || %-6s ||\n", "No.", "ID Book", "Title",
-                    "Author", "Category", "Duration");
-            System.out.println("=================================================================================");
-            int index = 1;
-            for (Book book : borrowedBooks) {
-                System.out.printf("|| %-4d || %-8s || %-20s || %-15s || %-10s\n", index, book.getId(),
-                        book.getTitle(), book.getAuthor(), book.getCategory());
-                index++;
-            }
-            System.out.println("=================================================================================");
-            System.out.println("Are you sure to borrow all these books?");
-            System.out.print("Input Y (yes) or N (no): ");
-            @SuppressWarnings("resource")
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("Y")) {
-                System.out.println("Books borrowed successfully.");
-                for (Book book : borrowedBooks) {
-                    book.setStock(book.getStock() - 1);
-                }
-            } else {
-                System.out.println("Returning to main menu...");
-            }
-        }
+    public StringProperty nimProperty() {
+        return nim;
+    }
+
+    public String getFaculty() {
+        return faculty.get();
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty.set(faculty);
+    }
+
+    public StringProperty facultyProperty() {
+        return faculty;
+    }
+
+    public String getProgram() {
+        return program.get();
+    }
+
+    public void setProgram(String program) {
+        this.program.set(program);
+    }
+
+    public StringProperty programProperty() {
+        return program;
     }
 }

@@ -1,46 +1,54 @@
 package books;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Book {
-    private String id;
-    private String title;
-    private String author;
-    private String category;
-    private int stock;
-    private int duration;
-    //Constructor 
-    public Book(String id, String title, String author, String category, int stock,int duration) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.category = category;
-        this.stock = stock;
-        this.duration = duration;
+    private final StringProperty id;
+    private final StringProperty title;
+    private final StringProperty author;
+    private final StringProperty category;
+    private final IntegerProperty stock;
+    private final IntegerProperty duration;
+
+    public Book(String id, String title, String author, String category, int stock, int duration) {
+        this.id = new SimpleStringProperty(id);
+        this.title = new SimpleStringProperty(title);
+        this.author = new SimpleStringProperty(author);
+        this.category = new SimpleStringProperty(category);
+        this.stock = new SimpleIntegerProperty(stock);
+        this.duration = new SimpleIntegerProperty(duration);
     }
 
+    // Getter for id
     public String getId() {
-        return id;
+        return id.get();
     }
 
+    // Getter for title
     public String getTitle() {
-        return title;
+        return title.get();
     }
 
+    // Getter for author
     public String getAuthor() {
-        return author;
+        return author.get();
     }
 
+    // Getter for category
     public String getCategory() {
-        return category;
+        return category.get();
     }
 
+    // Getter for stock
     public int getStock() {
-        return stock;
-    }
-    public int getDuration() {
-        return duration;
+        return stock.get();
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    // Getter for duration
+    public int getDuration() {
+        return duration.get();
     }
 }

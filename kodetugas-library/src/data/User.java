@@ -1,7 +1,7 @@
 package data;
 import java.util.Scanner;
 import books.Book;
-import controller.MainController;
+// import controller.MainController;
 
 public class User {
     protected String name;
@@ -21,6 +21,18 @@ public class User {
         return nim;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
     public void userMenu() {
         System.out.println("==== Student Menu ====");
         System.out.println("1. Buku yang Dipinjam");
@@ -34,7 +46,7 @@ public class User {
                 showBorrowedBooks();
                 break;
             case "2":
-                displayBooks();
+                // displayBooks();
                 break;
             case "3":
                 returnBooks(scanner);
@@ -47,20 +59,20 @@ public class User {
         }
     }
 
-    public void displayBooks() {
-        System.out.println("=================================================================================");
-        System.out.printf("|| %-4s || %-8s || %-20s || %-15s || %-10s || %-6s ||\n", "No.", "ID Book", "Title",
-                "Author", "Category", "Stock");
-        System.out.println("=================================================================================");
-        int index = 1;
-        for (Book book : MainController.bookList) {
-            System.out.printf("|| %-4d || %-8s || %-20s || %-15s || %-10s || %-6d ||\n", index, book.getId(),
-                    book.getTitle(), book.getAuthor(), book.getCategory(), book.getStock());
-            index++;
-        }
-        System.out.println("=================================================================================");
+    // public void displayBooks() {
+    //     System.out.println("=================================================================================");
+    //     System.out.printf("|| %-4s || %-8s || %-20s || %-15s || %-10s || %-6s ||\n", "No.", "ID Book", "Title",
+    //             "Author", "Category", "Stock");
+    //     System.out.println("=================================================================================");
+    //     int index = 1;
+    //     for (Book book : MainController.bookList) {
+    //         System.out.printf("|| %-4d || %-8s || %-20s || %-15s || %-10s || %-6d ||\n", index, book.getId(),
+    //                 book.getTitle(), book.getAuthor(), book.getCategory(), book.getStock());
+    //         index++;
+    //     }
+    //     System.out.println("=================================================================================");
 
-    }
+    // }
 
     public void showBorrowedBooks() {
         System.out.println("No books borrowed yet. \nPlease borrow a book first");

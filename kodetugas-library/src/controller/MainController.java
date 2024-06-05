@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.util.Pair;
 import javafx.geometry.Insets;
 
@@ -37,6 +39,20 @@ public class MainController {
     @FXML
     public void initialize() {
         initializeData();
+
+        AdminController adminController = new AdminController();
+
+        // Konversi ObservableList<User> ke ObservableList<Student>
+        ObservableList<Student> studentList = FXCollections.observableArrayList();
+        for (User user : userList) {
+            if (user instanceof Student) {
+                studentList.add((Student) user);
+            }
+        }
+
+        adminController.setBookList(FXCollections.observableArrayList(bookList));
+        adminController.setUserList(studentList);
+        
         studentLoginButton.setOnAction(e -> handleStudentLogin());
         adminLoginButton.setOnAction(e -> handleAdminLogin());
         exitButton.setOnAction(e -> handleExit());
@@ -136,7 +152,7 @@ public class MainController {
         return null;
     }
 
-    private void initializeData() {
+    public static void initializeData() {
         bookList.add(new HistoryBook("388c-e681-9152", "title1", "author1", "Sejarah", 8, 7));
         bookList.add(new StoryBook("ed90-be30-5cdb", "title2", "author2", "Cerita", 11, 14));
         bookList.add(new TextBook("d95e-0c4a-9523", "title3", "author3", "Novel", 3, 30));
