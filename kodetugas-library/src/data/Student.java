@@ -3,8 +3,14 @@ package data;
 import java.util.ArrayList;
 import books.Book;
 import com.main.Main;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import util.iMenu;
@@ -21,65 +27,109 @@ public class Student extends User implements iMenu {
         alert.setTitle("Student Information");
         alert.setHeaderText(null);
         alert.setContentText(
-            "Name: " + name + "\n" +
-            "NIM: " + nim + "\n" +
-            "Faculty: " + faculty + "\n" +
-            "Program: " + program
-        );
+                "Name: " + name + "\n" +
+                        "NIM: " + nim + "\n" +
+                        "Faculty: " + faculty + "\n" +
+                        "Program: " + program);
         alert.showAndWait();
     }
 
     @Override
     public void showBorrowedBooks() {
-        if (borrowedBooks.isEmpty()) {
-            showAlert(Alert.AlertType.INFORMATION, "Information", "No books borrowed yet.");
-        } else {
-            VBox vbox = new VBox();
-            vbox.setPadding(new javafx.geometry.Insets(10));
-            for (Book book : borrowedBooks) {
-                Label titleLabel = new Label("Title: " + book.getTitle());
-                Label authorLabel = new Label("Author: " + book.getAuthor());
-                Label categoryLabel = new Label("Category: " + book.getCategory());
-                Label durationLabel = new Label("Duration: " + book.getDuration());
-                VBox bookInfoBox = new VBox(titleLabel, authorLabel, categoryLabel, durationLabel);
-                bookInfoBox.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-padding: 5px;");
-                vbox.getChildren().add(bookInfoBox);
-            }
-            Scene scene = new Scene(vbox, 400, 400);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-        }
+        TableView<Book> table = new TableView<>();
+
+        TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+        TableColumn<Book, String> authorColumn = new TableColumn<>("Author");
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+
+        TableColumn<Book, String> categoryColumn = new TableColumn<>("Category");
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+
+        TableColumn<Book, Integer> durationColumn = new TableColumn<>("Duration");
+        durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+
+        table.getColumns().addAll(titleColumn, authorColumn, categoryColumn, durationColumn);
+
+        ObservableList<Book> borrowedBooksList = FXCollections.observableArrayList(borrowedBooks);
+        table.setItems(borrowedBooksList);
+
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+        vbox.getChildren().addAll(table);
+
+        Button backButton = new Button("Back");
+        backButton.setOnAction(e -> {
+            Stage currentStage = (Stage) backButton.getScene().getWindow();
+            currentStage.close();
+            userMenu();
+        });
+        
+        VBox.setMargin(backButton, new Insets(20, 0, 0, 0));
+        vbox.getChildren().add(backButton);
+
+        Scene scene = new Scene(vbox, 600, 400);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
     public void returnBooks() {
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+    
         if (borrowedBooks.isEmpty()) {
             showAlert(Alert.AlertType.INFORMATION, "Information", "No books borrowed yet.");
             return;
         }
-        
-        VBox vbox = new VBox();
-        vbox.setPadding(new javafx.geometry.Insets(10));
-        for (int i = 0; i < borrowedBooks.size(); i++) {
-            Book book = borrowedBooks.get(i);
-            Label bookLabel = new Label((i + 1) + ". " + book.getTitle());
-            Button returnButton = new Button("Return");
-            int index = i;
-            returnButton.setOnAction(e -> {
-                borrowedBooks.remove(index);
-                book.setStock(book.getStock() + 1);
+    
+        ObservableList<Book> tableData = FXCollections.observableArrayList(borrowedBooks);
+        TableView<Book> tableView = new TableView<>(tableData);
+    
+        TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+    
+        TableColumn<Book, String> authorColumn = new TableColumn<>("Author");
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+    
+        TableColumn<Book, String> categoryColumn = new TableColumn<>("Category");
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+    
+        TableColumn<Book, Integer> durationColumn = new TableColumn<>("Duration");
+        durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+    
+        tableView.getColumns().addAll(titleColumn, authorColumn, categoryColumn, durationColumn);
+    
+        Button returnButton = new Button("Return");
+        returnButton.setOnAction(e -> {
+            Book selectedBook = tableView.getSelectionModel().getSelectedItem();
+            if (selectedBook != null) {
+                borrowedBooks.remove(selectedBook);
+                selectedBook.setStock(selectedBook.getStock() + 1);
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Book returned successfully.");
-                Main.bookList.add(book);
-                Stage stage = (Stage) returnButton.getScene().getWindow();
-                stage.close();
-                returnBooks();
-            });
-            VBox bookBox = new VBox(bookLabel, returnButton);
-            vbox.getChildren().add(bookBox);
-        }
+                Main.bookList.add(selectedBook);
+                returnBooks(); // Refresh view
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Please select a book to return.");
+            }
+        });
+    
+        Button backButton = new Button("Back");
         
-        Scene scene = new Scene(vbox, 400, 400);
+        backButton.setOnAction(e -> {
+            Stage currentStage = (Stage) backButton.getScene().getWindow();
+            currentStage.close();
+            userMenu();
+        });
+        
+    
+        vbox.getChildren().addAll(tableView, returnButton, backButton);
+    
+        Scene scene = new Scene(vbox, 600, 400);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
@@ -87,43 +137,82 @@ public class Student extends User implements iMenu {
 
     // @Override
     public void displayBooks() {
-        VBox vbox = new VBox();
-        vbox.setPadding(new javafx.geometry.Insets(10));
-        for (Book book : Main.bookList) {
-            Label titleLabel = new Label("Title: " + book.getTitle());
-            Label authorLabel = new Label("Author: " + book.getAuthor());
-            Label categoryLabel = new Label("Category: " + book.getCategory());
-            Label stockLabel = new Label("Stock: " + book.getStock());
-            Button borrowButton = new Button("Borrow");
-            borrowButton.setOnAction(e -> {
-                if (book.getStock() > 0) {
-                    TextInputDialog dialog = new TextInputDialog();
-                    dialog.setTitle("Borrow Book");
-                    dialog.setHeaderText(null);
-                    dialog.setContentText("How many days do you want to borrow the book? (maximum 14 days):");
-                    dialog.showAndWait().ifPresent(daysStr -> {
-                        try {
-                            int days = Integer.parseInt(daysStr);
-                            if (days <= 14) {
-                                borrowedBooks.add(new Book(book.getId(), book.getTitle(), book.getAuthor(), book.getCategory(), book.getStock(), days));
-                                book.setStock(book.getStock() - 1);
-                                showAlert(Alert.AlertType.INFORMATION, "Success", "Book borrowed successfully.");
-                            } else {
-                                showAlert(Alert.AlertType.ERROR, "Error", "Invalid number of days.");
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+    
+        ObservableList<Book> tableData = FXCollections.observableArrayList(Main.bookList);
+        TableView<Book> tableView = new TableView<>(tableData);
+    
+        TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+    
+        TableColumn<Book, String> authorColumn = new TableColumn<>("Author");
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+    
+        TableColumn<Book, String> categoryColumn = new TableColumn<>("Category");
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+    
+        TableColumn<Book, Integer> stockColumn = new TableColumn<>("Stock");
+        stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+    
+        TableColumn<Book, Void> borrowColumn = new TableColumn<>("Action");
+        borrowColumn.setCellFactory(param -> new TableCell<>() {
+            final Button borrowButton = new Button("Borrow");
+    
+            {
+                borrowButton.setOnAction(event -> {
+                    Book book = getTableView().getItems().get(getIndex());
+                    if (book.getStock() > 0) {
+                        TextInputDialog dialog = new TextInputDialog();
+                        dialog.setTitle("Borrow Book");
+                        dialog.setHeaderText(null);
+                        dialog.setContentText("How many days do you want to borrow the book? (maximum 14 days):");
+                        dialog.showAndWait().ifPresent(daysStr -> {
+                            try {
+                                int days = Integer.parseInt(daysStr);
+                                if (days <= 14) {
+                                    borrowedBooks.add(new Book(book.getId(), book.getTitle(), book.getAuthor(),
+                                            book.getCategory(), book.getStock(), days));
+                                    book.setStock(book.getStock() - 1);
+                                    showAlert(Alert.AlertType.INFORMATION, "Success", "Book borrowed successfully.");
+                                    tableView.refresh();
+                                } else {
+                                    showAlert(Alert.AlertType.ERROR, "Error", "Invalid number of days.");
+                                }
+                            } catch (NumberFormatException ex) {
+                                showAlert(Alert.AlertType.ERROR, "Error", "Please enter a valid number.");
                             }
-                        } catch (NumberFormatException ex) {
-                            showAlert(Alert.AlertType.ERROR, "Error", "Please enter a valid number.");
-                        }
-                    });
+                        });
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Book out of stock!");
+                    }
+                });
+            }
+    
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
                 } else {
-                    showAlert(Alert.AlertType.ERROR, "Error", "Book out of stock!");
+                    setGraphic(borrowButton);
                 }
-            });
-            VBox bookInfoBox = new VBox(titleLabel, authorLabel, categoryLabel, stockLabel, borrowButton);
-            bookInfoBox.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-padding: 5px;");
-            vbox.getChildren().add(bookInfoBox);
-        }
-        Scene scene = new Scene(vbox, 400, 400);
+            }
+        });
+    
+        tableView.getColumns().addAll(titleColumn, authorColumn, categoryColumn, stockColumn, borrowColumn);
+    
+        Button backButton = new Button("Back");
+        backButton.setOnAction(e -> {
+            Stage currentStage = (Stage) backButton.getScene().getWindow();
+            currentStage.close();
+            userMenu();
+        });
+    
+        vbox.getChildren().addAll(tableView, backButton);
+    
+        Scene scene = new Scene(vbox, 600, 400);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
@@ -142,8 +231,10 @@ public class Student extends User implements iMenu {
 
     private void userMenu() {
         VBox vbox = new VBox(10);
-        vbox.setPadding(new javafx.geometry.Insets(10));
-
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+        
+        Label label = new Label("===== Student menu =====");
         Button borrowedBooksButton = new Button("Show Borrowed Books");
         borrowedBooksButton.setOnAction(e -> showBorrowedBooks());
 
@@ -155,8 +246,9 @@ public class Student extends User implements iMenu {
 
         Button logoutButton = new Button("Logout");
         logoutButton.setOnAction(e -> logout());
-
-        vbox.getChildren().addAll(borrowedBooksButton, borrowBookButton, returnBookButton, logoutButton);
+        
+        label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        vbox.getChildren().addAll(label,borrowedBooksButton, borrowBookButton, returnBookButton, logoutButton);
 
         Scene scene = new Scene(vbox, 400, 400);
         Stage stage = new Stage();

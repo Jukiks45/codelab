@@ -26,6 +26,14 @@ public class User {
         return nim;
     }
 
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
     public void showBorrowedBooks() {
         showAlert(AlertType.INFORMATION, "Information", "No books borrowed yet. \nPlease borrow a book first.");
     }

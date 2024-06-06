@@ -44,7 +44,7 @@ public class Main extends Application {
         exitButton.setOnAction(e -> System.exit(0));
 
         VBox vbox = new VBox(10, label, studentLoginButton, adminLoginButton, exitButton);
-        vbox.setPadding(new Insets(10));
+        vbox.setPadding(new Insets(20));
         vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(15);
 
@@ -52,7 +52,8 @@ public class Main extends Application {
         VBox.setMargin(studentLoginButton, new Insets(0, 0, 10, 0));
         VBox.setMargin(adminLoginButton, new Insets(0, 0, 10, 0));
         VBox.setMargin(exitButton, new Insets(20, 0, 0, 0));
-        Scene scene = new Scene(vbox, 300, 250);
+
+        Scene scene = new Scene(vbox, 400, 250);
         stage.setScene(scene);
         stage.show();
     }
@@ -81,15 +82,14 @@ public class Main extends Application {
         backButton.setOnAction(e -> showMainMenu(stage));
 
         VBox vbox = new VBox(10, nimLabel, nimField, submitButton, backButton);
-        vbox.setPadding(new Insets(15));
+        vbox.setPadding(new Insets(20));
         vbox.setAlignment(Pos.CENTER);
-        vbox.setSpacing(10);
+        vbox.setSpacing(15);
 
-        // set margin
-        VBox.setMargin(nimLabel, new Insets(0, 0, 10, 0));
+        VBox.setMargin(nimLabel, new Insets(0, 0, 20, 0));
         VBox.setMargin(nimField, new Insets(0, 0, 10, 0));
         VBox.setMargin(submitButton, new Insets(0, 0, 10, 0));
-        VBox.setMargin(backButton, new Insets(10, 0, 0, 0));
+        VBox.setMargin(backButton, new Insets(20, 0, 0, 0));
 
         Scene scene = new Scene(vbox, 400, 250);
         stage.setScene(scene);
@@ -120,7 +120,7 @@ public class Main extends Application {
 
         VBox vbox = new VBox(10, usernameLabel, usernameField, passwordLabel, passwordField, loginButton, backButton);
         vbox.setPadding(new Insets(15)); 
-        vbox.setAlignment(Pos.CENTER); 
+        vbox.setAlignment(Pos.CENTER);
         vbox.setSpacing(10); 
 
         VBox.setMargin(usernameLabel, new Insets(0, 0, 5, 0));
@@ -130,7 +130,7 @@ public class Main extends Application {
         VBox.setMargin(loginButton, new Insets(0, 0, 10, 0));
         VBox.setMargin(backButton, new Insets(10, 0, 0, 0));
 
-        Scene scene = new Scene(vbox, 350, 250); 
+        Scene scene = new Scene(vbox, 350, 250);
         stage.setScene(scene);
         stage.show();
     }

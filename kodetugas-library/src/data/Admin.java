@@ -5,14 +5,20 @@ import books.HistoryBook;
 import books.StoryBook;
 import books.TextBook;
 import javafx.scene.control.Alert;
-// import javafx.scene.control.ButtonType;
 import com.main.Main;
 import exception.custom.IllegalAdminAccess;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import util.iMenu;
@@ -35,7 +41,6 @@ public class Admin extends User implements iMenu {
 
     @Override
     public void menu() {
-        // This can remain empty if not used directly
     }
 
     public void adminMenu(Stage stage) {
@@ -51,7 +56,7 @@ public class Admin extends User implements iMenu {
         showStudentsButton.setOnAction(e -> displayRegisteredStudents(stage));
         showBooksButton.setOnAction(e -> displayBooks(stage));
         logoutButton.setOnAction(e -> {
-            Alert alert = new Alert(AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Logout");
             alert.setHeaderText(null);
             alert.setContentText("Keluar dari akun admin.");
@@ -59,9 +64,20 @@ public class Admin extends User implements iMenu {
             new Main().start(stage);
         });
 
-        VBox vbox = new VBox(10, label, addStudentButton, addBookButton, showStudentsButton, showBooksButton,
+        // Set style and alignment
+        label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        VBox vbox = new VBox(15, label, addStudentButton, addBookButton, showStudentsButton, showBooksButton,
                 logoutButton);
-        vbox.setPadding(new javafx.geometry.Insets(10));
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+
+        // Add margins to buttons
+        VBox.setMargin(addStudentButton, new Insets(5, 0, 5, 0));
+        VBox.setMargin(addBookButton, new Insets(5, 0, 5, 0));
+        VBox.setMargin(showStudentsButton, new Insets(5, 0, 5, 0));
+        VBox.setMargin(showBooksButton, new Insets(5, 0, 5, 0));
+        VBox.setMargin(logoutButton, new Insets(20, 0, 0, 0));
+
         Scene scene = new Scene(vbox, 400, 400);
         stage.setScene(scene);
         stage.show();
@@ -87,11 +103,31 @@ public class Admin extends User implements iMenu {
             addStudent(name, nim, faculty, program, stage);
         });
 
-        backButton.setOnAction(e -> adminMenu(stage));
+        backButton.setOnAction(e -> {
+            Stage currentStage = (Stage) backButton.getScene().getWindow();
+            currentStage.close();
+            adminMenu(stage);
+        });
+
+        // Set style and alignment
+        nameLabel.setStyle("-fx-font-size: 14px;");
+        nimLabel.setStyle("-fx-font-size: 14px;");
+        facultyLabel.setStyle("-fx-font-size: 14px;");
+        programLabel.setStyle("-fx-font-size: 14px;");
 
         VBox vbox = new VBox(10, nameLabel, nameField, nimLabel, nimField, facultyLabel, facultyField, programLabel,
                 programField, submitButton, backButton);
-        vbox.setPadding(new javafx.geometry.Insets(10));
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+
+        // Add margins to text fields and buttons
+        VBox.setMargin(nameField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(nimField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(facultyField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(programField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(submitButton, new Insets(20, 0, 5, 0));
+        VBox.setMargin(backButton, new Insets(5, 0, 20, 0));
+
         Scene scene = new Scene(vbox, 400, 400);
         stage.setScene(scene);
         stage.show();
@@ -110,7 +146,15 @@ public class Admin extends User implements iMenu {
         backButton.setOnAction(e -> adminMenu(stage));
 
         VBox vbox = new VBox(10, categoryLabel, storyButton, historyButton, textButton, backButton);
-        vbox.setPadding(new javafx.geometry.Insets(10));
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+
+        // Add margins to buttons
+        VBox.setMargin(storyButton, new Insets(5, 0, 5, 0));
+        VBox.setMargin(historyButton, new Insets(5, 0, 5, 0));
+        VBox.setMargin(textButton, new Insets(5, 0, 5, 0));
+        VBox.setMargin(backButton, new Insets(20, 0, 0, 0));
+
         Scene scene = new Scene(vbox, 400, 400);
         stage.setScene(scene);
         stage.show();
@@ -135,9 +179,23 @@ public class Admin extends User implements iMenu {
 
         backButton.setOnAction(e -> showAddBookForm(stage));
 
+        // Set style and alignment
+        titleLabel.setStyle("-fx-font-size: 14px;");
+        authorLabel.setStyle("-fx-font-size: 14px;");
+        stockLabel.setStyle("-fx-font-size: 14px;");
+
         VBox vbox = new VBox(10, titleLabel, titleField, authorLabel, authorField, stockLabel, stockField, submitButton,
                 backButton);
-        vbox.setPadding(new javafx.geometry.Insets(10));
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+
+        // Add margins to text fields and buttons
+        VBox.setMargin(titleField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(authorField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(stockField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(submitButton, new Insets(20, 0, 5, 0));
+        VBox.setMargin(backButton, new Insets(5, 0, 20, 0));
+
         Scene scene = new Scene(vbox, 400, 400);
         stage.setScene(scene);
         stage.show();
@@ -150,8 +208,6 @@ public class Admin extends User implements iMenu {
         TextField authorField = new TextField();
         Label stockLabel = new Label("Enter the stock: ");
         TextField stockField = new TextField();
-        // Label durationLabel = new Label("Enter duration: ");
-        // TextField durationField = new TextField();
         Button submitButton = new Button("Submit");
         Button backButton = new Button("Back");
 
@@ -159,16 +215,28 @@ public class Admin extends User implements iMenu {
             String title = titleField.getText();
             String author = authorField.getText();
             int stock = Integer.parseInt(stockField.getText());
-            // int duration = Integer.parseInt(durationField.getText());
             addBook("Text", title, author, stock, 0, stage);
         });
 
         backButton.setOnAction(e -> showAddBookForm(stage));
 
-        // VBox vbox = new VBox(10, titleLabel, titleField, authorLabel, authorField, stockLabel, stockField,
-        //         durationLabel, durationField, submitButton, backButton);
-        VBox vbox = new VBox(10, titleLabel, titleField, authorLabel, authorField, stockLabel, stockField, submitButton, backButton);
-        vbox.setPadding(new javafx.geometry.Insets(10));
+        // Set style and alignment
+        titleLabel.setStyle("-fx-font-size: 14px;");
+        authorLabel.setStyle("-fx-font-size: 14px;");
+        stockLabel.setStyle("-fx-font-size: 14px;");
+
+        VBox vbox = new VBox(10, titleLabel, titleField, authorLabel, authorField, stockLabel, stockField, submitButton,
+                backButton);
+        vbox.setPadding(new Insets(20));
+        vbox.setAlignment(Pos.CENTER);
+
+        // Add margins to text fields and buttons
+        VBox.setMargin(titleField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(authorField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(stockField, new Insets(5, 0, 10, 0));
+        VBox.setMargin(submitButton, new Insets(20, 0, 5, 0));
+        VBox.setMargin(backButton, new Insets(5, 0, 20, 0));
+
         Scene scene = new Scene(vbox, 400, 400);
         stage.setScene(scene);
         stage.show();
@@ -194,65 +262,92 @@ public class Admin extends User implements iMenu {
         // Tampilkan pesan berhasil
         showAlert(AlertType.INFORMATION, "Success", "Book added successfully.");
     }
-    
+
     public void addStudent(String name, String nim, String faculty, String program, Stage stage) {
         Student student = new Student(name, nim, faculty, program);
         Main.userList.add(student);
-        // Tampilkan pesan berhasil
         showAlert(AlertType.INFORMATION, "Success", "Student added successfully.");
     }
 
     public void displayRegisteredStudents(Stage stage) {
-        VBox vbox = new VBox();
-        vbox.setPadding(new javafx.geometry.Insets(10));
-        for (User user : Main.userList) {
-            if (user instanceof Student) {
-                Student student = (Student) user;
-                Label nameLabel = new Label("Name: " + student.name);
-                Label facultyLabel = new Label("Faculty: " + student.faculty);
-                Label nimLabel = new Label("NIM: " + student.nim);
-                Label programLabel = new Label("Program: " + student.program);
-                VBox studentInfoBox = new VBox(nameLabel, facultyLabel, nimLabel, programLabel);
-                studentInfoBox.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-padding: 5px;");
-                vbox.getChildren().add(studentInfoBox);
-            }
+    TableView<Student> table = new TableView<>();
+    
+    TableColumn<Student, String> nameColumn = new TableColumn<>("Name");
+    nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+    
+    TableColumn<Student, String> nimColumn = new TableColumn<>("NIM");
+    nimColumn.setCellValueFactory(new PropertyValueFactory<>("nim"));
+    
+    TableColumn<Student, String> facultyColumn = new TableColumn<>("Faculty");
+    facultyColumn.setCellValueFactory(new PropertyValueFactory<>("faculty"));
+    
+    TableColumn<Student, String> programColumn = new TableColumn<>("Program");
+    programColumn.setCellValueFactory(new PropertyValueFactory<>("program"));
+    
+    table.getColumns().addAll(nameColumn, nimColumn, facultyColumn, programColumn);
+    
+    ObservableList<Student> students = FXCollections.observableArrayList();
+    for (User user : Main.userList) {
+        if (user instanceof Student) {
+            students.add((Student) user);
         }
-        Button backButton = new Button("Back");
-        backButton.setOnAction(e -> adminMenu(stage));
-        vbox.getChildren().add(backButton); // Tambahkan tombol "Back"
-        Scene scene = new Scene(vbox, 400, 400);
-        stage.setScene(scene);
-        stage.show();
     }
+    table.setItems(students);
+    
+    Button backButton = new Button("Back");
+    backButton.setOnAction(e -> adminMenu(stage));
+    
+    VBox vbox = new VBox(10);
+    vbox.setPadding(new Insets(20));
+    vbox.setAlignment(Pos.CENTER);
+    vbox.getChildren().addAll(table, backButton);
+    
+    Scene scene = new Scene(vbox, 600, 400);
+    stage.setScene(scene);
+    stage.show();
+}
 
-    public void displayBooks(Stage stage) {
-        VBox vbox = new VBox();
-        vbox.setPadding(new javafx.geometry.Insets(10));
-        for (Book book : Main.bookList) {
-            Label idLabel = new Label("ID: " + book.getId());
-            Label titleLabel = new Label("Title: " + book.getTitle());
-            Label authorLabel = new Label("Author: " + book.getAuthor());
-            Label categoryLabel = new Label("Category: " + book.getCategory());
-            Label stockLabel = new Label("Stock: " + book.getStock());
-            VBox bookInfoBox = new VBox(idLabel, titleLabel, authorLabel, categoryLabel, stockLabel);
-            bookInfoBox.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-padding: 5px;");
-            vbox.getChildren().add(bookInfoBox);
-        }
+public void displayBooks(Stage stage) {
+    TableView<Book> table = new TableView<>();
 
-        Button backButton = new Button("Back");
-        backButton.setOnAction(e -> adminMenu(stage));
-        vbox.getChildren().add(backButton);
-        Scene scene = new Scene(vbox, 400, 400);
-        stage.setScene(scene);
-        stage.show();
-    }
+    TableColumn<Book, String> idColumn = new TableColumn<>("ID");
+    idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+    TableColumn<Book, String> titleColumn = new TableColumn<>("Title");
+    titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+
+    TableColumn<Book, String> authorColumn = new TableColumn<>("Author");
+    authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+
+    TableColumn<Book, String> categoryColumn = new TableColumn<>("Category");
+    categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+
+    TableColumn<Book, Integer> stockColumn = new TableColumn<>("Stock");
+    stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+
+    table.getColumns().addAll(idColumn, titleColumn, authorColumn, categoryColumn, stockColumn);
+
+    ObservableList<Book> books = FXCollections.observableArrayList(Main.bookList);
+    table.setItems(books);
+
+    Button backButton = new Button("Back");
+    backButton.setOnAction(e -> adminMenu(stage));
+
+    VBox vbox = new VBox(10);
+    vbox.setPadding(new Insets(20));
+    vbox.setAlignment(Pos.CENTER);
+    vbox.getChildren().addAll(table, backButton);
+
+    Scene scene = new Scene(vbox, 600, 400);
+    stage.setScene(scene);
+    stage.show();
+}
 
     public String generateId() {
         String uuid = java.util.UUID.randomUUID().toString();
-        String id = uuid.substring(0, 14);
-        return id;
+        return uuid.substring(0, 14);
     }
-    
+
     protected void showAlert(AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -260,5 +355,4 @@ public class Admin extends User implements iMenu {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
 }
