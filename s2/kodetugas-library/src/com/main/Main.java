@@ -12,6 +12,8 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -34,29 +36,44 @@ public class Main extends Application {
     }
 
     private void showMainMenu(Stage stage) {
-        Label label = new Label("===== Library System =====");
-        Button studentLoginButton = new Button("Login as Student");
-        Button adminLoginButton = new Button("Login as Admin");
-        Button exitButton = new Button("Exit");
-
-        studentLoginButton.setOnAction(e -> enterNim(stage));
-        adminLoginButton.setOnAction(e -> showAdminLogin(stage));
-        exitButton.setOnAction(e -> System.exit(0));
-
-        VBox vbox = new VBox(10, label, studentLoginButton, adminLoginButton, exitButton);
-        vbox.setPadding(new Insets(20));
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setSpacing(15);
-
-        VBox.setMargin(label, new Insets(0, 0, 20, 0));
-        VBox.setMargin(studentLoginButton, new Insets(0, 0, 10, 0));
-        VBox.setMargin(adminLoginButton, new Insets(0, 0, 10, 0));
-        VBox.setMargin(exitButton, new Insets(20, 0, 0, 0));
-
-        Scene scene = new Scene(vbox, 400, 250);
-        stage.setScene(scene);
-        stage.show();
-    }
+            // Create components
+            Label titleLabel = new Label("Library System");
+            titleLabel.getStyleClass().add("title");
+    
+            Button studentLoginButton = new Button("Login as Student");
+            Button adminLoginButton = new Button("Login as Admin");
+            Button exitButton = new Button("Exit");
+    
+            // Set button actions
+            studentLoginButton.setOnAction(e -> enterNim(stage));
+            adminLoginButton.setOnAction(e -> showAdminLogin(stage));
+            exitButton.setOnAction(e -> System.exit(0));
+    
+            // Layout setup with GridPane
+            GridPane gridPane = new GridPane();
+            gridPane.setAlignment(Pos.CENTER);
+            gridPane.setHgap(10);
+            gridPane.setVgap(20);
+            gridPane.setPadding(new Insets(50));
+    
+            // Add components to GridPane
+            gridPane.add(titleLabel, 0, 0, 2, 1);
+            gridPane.add(studentLoginButton, 0, 1);
+            gridPane.add(adminLoginButton, 1, 1);
+            gridPane.add(exitButton, 0, 2, 2, 1);
+    
+            // Add CSS styles
+            gridPane.getStyleClass().add("main-menu");
+    
+            // Create scene
+            Scene scene = new Scene(gridPane, 400, 300);
+            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    
+            // Set stage properties
+            stage.setTitle("Library System");
+            stage.setScene(scene);
+            stage.show();
+        }
 
     private void enterNim(Stage stage) {
         Label nimLabel = new Label("Enter your NIM (input 99 to back): ");

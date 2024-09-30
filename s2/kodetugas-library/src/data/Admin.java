@@ -41,6 +41,7 @@ public class Admin extends User implements iMenu {
 
     @Override
     public void menu() {
+        // adminMenu(Stage);
     }
 
     public void adminMenu(Stage stage) {
@@ -64,7 +65,7 @@ public class Admin extends User implements iMenu {
             new Main().start(stage);
         });
 
-        // Set style and alignment
+        
         label.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         VBox vbox = new VBox(15, label, addStudentButton, addBookButton, showStudentsButton, showBooksButton,
                 logoutButton);
@@ -109,7 +110,7 @@ public class Admin extends User implements iMenu {
             adminMenu(stage);
         });
 
-        // Set style and alignment
+        
         nameLabel.setStyle("-fx-font-size: 14px;");
         nimLabel.setStyle("-fx-font-size: 14px;");
         facultyLabel.setStyle("-fx-font-size: 14px;");
@@ -179,7 +180,7 @@ public class Admin extends User implements iMenu {
 
         backButton.setOnAction(e -> showAddBookForm(stage));
 
-        // Set style and alignment
+        
         titleLabel.setStyle("-fx-font-size: 14px;");
         authorLabel.setStyle("-fx-font-size: 14px;");
         stockLabel.setStyle("-fx-font-size: 14px;");
@@ -220,7 +221,7 @@ public class Admin extends User implements iMenu {
 
         backButton.setOnAction(e -> showAddBookForm(stage));
 
-        // Set style and alignment
+        
         titleLabel.setStyle("-fx-font-size: 14px;");
         authorLabel.setStyle("-fx-font-size: 14px;");
         stockLabel.setStyle("-fx-font-size: 14px;");

@@ -112,7 +112,7 @@ public class Student extends User implements iMenu {
                 selectedBook.setStock(selectedBook.getStock() + 1);
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Book returned successfully.");
                 Main.bookList.add(selectedBook);
-                returnBooks(); // Refresh view
+                returnBooks(); 
             } else {
                 showAlert(Alert.AlertType.ERROR, "Error", "Please select a book to return.");
             }
