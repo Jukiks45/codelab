@@ -1,0 +1,62 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "p",
+            "request": "launch",
+            "mainClass": "p",
+            "projectName": "prak1_66460566"
+        },
+        {
+            "type": "java",
+            "name": "Launch Java Program",
+            "request": "launch",
+            "mainClass": ""
+        },
+        {
+            "type": "java",
+            "name": "Attach",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": "<debug port of the debuggee>"
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Codelabl",
+            "request": "launch",
+            "mainClass": "Codelabl",
+            "projectName": "prak1_66460566"
+        },
+        {
+            "type": "java",
+            "name": "EmailValidation",
+            "request": "launch",
+            "mainClass": "EmailValidation",
+            "projectName": "prak1_66460566"
+        },
+        {
+            "type": "java",
+            "name": "HitungGaji",
+            "request": "launch",
+            "mainClass": "HitungGaji",
+            "projectName": "prak1_66460566"
+        },
+        {
+            "type": "java",
+            "name": "NinjaFruit",
+            "request": "launch",
+            "mainClass": "NinjaFruit",
+            "projectName": "prak1_66460566"
+        }
+    ]
+}
