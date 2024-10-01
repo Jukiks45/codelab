@@ -1,5 +1,5 @@
 import java.util.*;
-
+//tugas 1
 public class NinjaFruit {
     public static void main(String[] args) {
         // benarkan syntax

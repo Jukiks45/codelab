@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TiketWisataOnline",
+            "request": "launch",
+            "mainClass": "TiketWisataOnline",
+            "projectName": "prak1_66460566"
+        },
+        {
+            "type": "java",
+            "name": "PasswordValidator",
+            "request": "launch",
+            "mainClass": "PasswordValidator",
+            "projectName": "prak1_66460566"
+        },
+        {
+            "type": "java",
             "name": "p",
             "request": "launch",
             "mainClass": "p",
