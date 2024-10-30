@@ -13,6 +13,7 @@ public class Order {
     }
 
     public double hitungTotal() {
+        //ht
         double total = 0;
         for (MenuItem item : items) {
             total += item.hitungSubtotal();
