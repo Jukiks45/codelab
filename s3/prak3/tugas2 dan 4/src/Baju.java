@@ -1,7 +1,4 @@
-/**
- * Kelas Baju merepresentasikan atribut dan fungsi terkait baju yang dijual,
- * termasuk nama, harga, stok, serta metode untuk menyesuaikan stok.
- */
+
 public class Baju {
     private String nama;
     private double harga;
@@ -14,6 +11,7 @@ public class Baju {
      * @param harga Harga baju.
      * @param jumlahStok Jumlah stok awal dari baju.
      */
+
     public Baju(String nama, double harga, int jumlahStok) {
         this.nama = nama;
         this.harga = harga;
@@ -48,6 +46,7 @@ public class Baju {
     }
 
     // Getter untuk atribut harga
+
     public double getHarga() {
         return harga;
     }
