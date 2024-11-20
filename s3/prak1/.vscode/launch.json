@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PasswordValidator",
+            "request": "launch",
+            "mainClass": "PasswordValidator",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "NinjaFruit",
+            "request": "launch",
+            "mainClass": "NinjaFruit",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "TiketWisataOnline",
             "request": "launch",
             "mainClass": "TiketWisataOnline",
